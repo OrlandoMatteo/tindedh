@@ -50,6 +50,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.2",
     "react": "^18.3.1",
+    "react-deck-swiper": "^1.0.9",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.2",
     "react-i18next": "^15.0.1",
@@ -108,17 +109,19 @@
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
     "prop-types": "^15.8.1",
-    "storybook": "^8.2.8",
+    "storybook": "^8.2.9",
     "tailwindcss": "^3.4.9",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.1",
     "vite": "5.4.0",
     "vite-plugin-static-copy": "^1.0.6",
-    "vitest": "2.0.5"
+    "vitest": "2.0.5",
+    "@types/bun": "latest"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "module": "index.ts"
 }

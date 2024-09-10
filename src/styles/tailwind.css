@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* MtgCard.css */
+
+
+.card {
+    transition: transform 0.1s ease, opacity 0.1s ease;
+
+    backface-visibility: hidden;  /* Prevents a flicker effect during rotation */
+    opacity: 1;
+}
+
+.current-card {
+    z-index: 2;
+}
+
+.next-card {
+    z-index: 1;
+    opacity: 0.5;
+    transform: scale(0.95);  /* Slightly smaller to show it's in the background */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Ensure the scaling and opacity change smoothly */
+}
+
+img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+
+/* Hide the card during the transition */
+.hidden {
+    opacity: 0;
+    transform: translateX(0) rotate(0); /* Ensure it resets to original position */
+}
+
+/* Make the new card larger and increase opacity */
+.visible {
+    transform: scale(1);
+    opacity: 1;
+}
