@@ -17,7 +17,6 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "setup": "git init && npx husky init && npx playwright install && rm .husky/pre-commit",
     "format": "prettier src/**/*.{ts,tsx} --write",
     "lint": "eslint --max-warnings 0",
     "lint:fix": "eslint --max-warnings 0 --fix",
@@ -32,9 +31,6 @@
     "test:e2e:report": "playwright show-report",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "commitlint": "commitlint --edit",
-    "commitizen": "exec < /dev/tty && git cz --hook || true",
-    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -104,7 +100,6 @@
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-unicorn": "^55.0.0",
     "globals": "^15.9.0",
-    "husky": "^9.1.4",
     "jsdom": "^24.1.1",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
