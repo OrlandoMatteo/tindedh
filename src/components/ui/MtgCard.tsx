@@ -12,9 +12,10 @@ const fetchData = async () => {
 
 function MtgCard() {
     const [currentCard, setCurrentCard] = useState({
-        name: 'Aeve, Progenitor Ooze',
-        url: 'https://cards.scryfall.io/normal/front/d/f/dfe9b1b8-dffe-427d-be1e-2c6b8395bd54.jpg?1626097164'
+        name: '',
+        url: 'https://preview.redd.it/magic-card-back-v0-z447uhqddz9a1.jpg?auto=webp&s=8f4baba66011cbf8cd51d9ea5af0c69831fe614d'
     });
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
 
     const [nextCard, setNextCard] = useState(null);
     const [startTouch, setStartTouch] = useState({ x: 0, y: 0 });
@@ -31,7 +32,7 @@ function MtgCard() {
     const loadNewCard = async () => {
         setIsCardHidden(true); // Hide the card during transition
         setIsNewCardVisible(true);
-
+``
         // Allow time for the old card to reset and hide
         setTimeout(async () => {
             setCurrentCard(nextCard);
@@ -40,7 +41,7 @@ function MtgCard() {
             setIsCardHidden(false); // Show the new card once ready
             setIsNewCardVisible(false);
             setIsSwiping(false);
-        }, 100); // Match the CSS transition duration
+        }, 10); // Match the CSS transition duration
     };
 
     const handleTouchStart = (e) => {
@@ -60,6 +61,7 @@ function MtgCard() {
 
         if (Math.abs(deltaX) > 100) {
             setIsSwiping(true);
+            setIsFirstLoad(false);
             loadNewCard();
         } else {
             resetPosition(); // If swipe is not far enough, reset position
@@ -73,19 +75,19 @@ function MtgCard() {
     const rotateDegree = translateX / 10; // Rotate more as the swipe moves further
 
     return (
-        <div className='flex justify-center items-center h-svh m-2'>
+        <div className='flex justify-center items-center h-dvh'>
             {/* The next card underneath the current card */}
             {nextCard && (
                 <div
-                    className={`next-card  ${isNewCardVisible ? 'visible' : ''}`}
+                    className={`next-card absolute top-20 ${isNewCardVisible ? 'visible' : ''}`}
                 >
-                    <img src={nextCard.url} alt={nextCard.name} className='rounded-2xl m-4' />
+                    <img src={nextCard.url} alt={nextCard.name} className='rounded-2xl m-4 min-w-[88vw] max-w-[88vw]' />
                 </div>
             )}
 
             {/* The current swiping card */}
             <div
-                className={`absolute card current-card   ${isCardHidden ? 'hidden' : ''}`}
+                className={`absolute card top-20 current-card   ${isCardHidden ? 'hidden' : ''}`}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -94,9 +96,10 @@ function MtgCard() {
                     transition: isSwiping ? 'transform 0.1s ease' : 'none'
                 }}
             >
-                <img src={currentCard.url} alt={currentCard.name} className='rounded-2xl shadow-2xl m-4 ' />
-                <h3 className='text-2xl font-bold text-center text-slate-300'>{currentCard.name}</h3>
+                <img src={currentCard.url} alt={currentCard.name} className='rounded-2xl shadow-2xl m-4 min-w-[88vw] max-w-[88vw]' />
             </div>
+            {/* if the first load, show the loading message */}
+            {<h3 className={`absolute bottom-32 text-white text-[1.7rem] font-bold ${isFirstLoad?'block':'hidden'}`}>Swipe left or right to start</h3>}
         </div>
     );
 }
