@@ -73,19 +73,19 @@ function MtgCard() {
     const rotateDegree = translateX / 10; // Rotate more as the swipe moves further
 
     return (
-        <div className='flex justify-center p-8 card-container h-svh'>
+        <div className='flex justify-center items-center h-svh m-2'>
             {/* The next card underneath the current card */}
             {nextCard && (
                 <div
-                    className={`absolute card next-card ${isNewCardVisible ? 'visible' : ''}`}
+                    className={`next-card  ${isNewCardVisible ? 'visible' : ''}`}
                 >
-                    <img src={nextCard.url} alt={nextCard.name} className='rounded-2xl' />
+                    <img src={nextCard.url} alt={nextCard.name} className='rounded-2xl m-4' />
                 </div>
             )}
 
             {/* The current swiping card */}
             <div
-                className={`absolute card current-card ${isCardHidden ? 'hidden' : ''}`}
+                className={`absolute card current-card   ${isCardHidden ? 'hidden' : ''}`}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -94,7 +94,7 @@ function MtgCard() {
                     transition: isSwiping ? 'transform 0.1s ease' : 'none'
                 }}
             >
-                <img src={currentCard.url} alt={currentCard.name} className='rounded-2xl shadow-2xl' />
+                <img src={currentCard.url} alt={currentCard.name} className='rounded-2xl shadow-2xl m-4 ' />
                 <h3 className='text-2xl font-bold text-center text-slate-300'>{currentCard.name}</h3>
             </div>
         </div>

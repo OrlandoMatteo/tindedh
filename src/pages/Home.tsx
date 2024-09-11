@@ -4,7 +4,7 @@ import MtgCard from '../components/ui/MtgCard'
 export const Home = (): FunctionComponent => {
 
 	return (
-		<div className="container mx-auto bg-indigo-900 ">
+		<div className=" flex justify-center items-center bg-indigo-900 ">
 			<MtgCard></MtgCard>
 		</div>
 	);
