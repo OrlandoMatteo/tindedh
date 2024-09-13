@@ -6,6 +6,8 @@ import { routeTree } from "./routeTree.gen.ts";
 import "./styles/tailwind.css";
 import './common/i18n'
 
+
+
 const router = createRouter({ routeTree });
 
 declare module "@tanstack/react-router" {

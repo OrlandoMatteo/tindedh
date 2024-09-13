@@ -1,13 +1,16 @@
 
 import type { FunctionComponent } from "../common/types";
+import BasicLayout from "../components/layout/Basic";
 import MtgCard from '../components/ui/MtgCard'
-import Menu from '../components/ui/Menu.tsx'
 export const Home = (): FunctionComponent => {
 
 	return (
-		<div className=" flex justify-center items-center bg-indigo-900 m-2 ">
-			<MtgCard></MtgCard>
-			<Menu></Menu>
-		</div>
+		<BasicLayout>
+			{/* MtgCard section (grows to fill available space) */}
+			<div className="flex-1 flex justify-center items-center bg-indigo-900 w-screen relative">
+				<MtgCard />
+			</div>
+		</BasicLayout>
+
 	);
 };
