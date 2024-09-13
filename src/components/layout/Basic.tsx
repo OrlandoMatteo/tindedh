@@ -8,9 +8,7 @@ function BasicLayout({ children }: { children: React.ReactNode }) {
 				<TopBar />
 			</div>
             {/* MtgCard section (grows to fill available space) */}
-            <div className="flex-1 flex justify-center items-center bg-indigo-900 w-screen relative">
                 {children}
-            </div>
             {/* Menu section */}
             <div className="h-[10vh]">
                 <Menu />

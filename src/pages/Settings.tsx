@@ -6,12 +6,14 @@ export const Settings = (): FunctionComponent => {
 
 	return (
 		<BasicLayout>
-			
-		<div className=" grid grid-rows-2 w-screen ">
-			<ColorFilter />
-			<ManaCostFilter />
+
+            <div className="flex-1 overflow-y-auto bg-indigo-900 w-screen relative">
+				<div className=" grid grid-rows-2 w-screen ">
+					<ColorFilter />
+					<ManaCostFilter />
+				</div>
 			</div>
-		</BasicLayout>
+		</BasicLayout >
 	);
 };
 
