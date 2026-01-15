@@ -8,7 +8,7 @@ export const Settings = (): FunctionComponent => {
 		<BasicLayout>
 
             <div className="flex-1 overflow-y-auto bg-indigo-900 w-screen relative">
-				<div className=" grid grid-rows-2 w-screen ">
+				<div className="mx-auto grid w-full max-w-5xl gap-6 px-5 py-6 md:grid-cols-2">
 					<ColorFilter />
 					<ManaCostFilter />
 				</div>
@@ -16,4 +16,3 @@ export const Settings = (): FunctionComponent => {
 		</BasicLayout >
 	);
 };
-

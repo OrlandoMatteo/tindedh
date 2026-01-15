@@ -3,11 +3,18 @@
 @tailwind utilities;
 
 /* MtgCard.css */
+html,
+body,
+#root {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+}
 
 
 .card {
     transition: transform 0.1s ease, opacity 0.1s ease;
-
+    touch-action: pan-x;
     backface-visibility: hidden;  /* Prevents a flicker effect during rotation */
     opacity: 1;
 }
@@ -19,6 +26,7 @@
 .next-card {
     z-index: 1;
     opacity: 0.5;
+    transform: translateY(6px) scale(0.97) rotateZ(-1deg);
 }
 
 img {
@@ -35,7 +43,25 @@ img {
 
 /* Make the new card larger and increase opacity */
 .visible {
-    transform: scale(1);
+    transform: translateY(0) scale(1) rotateZ(-0.5deg);
     opacity: 1;
 }
 
+@keyframes cardEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card-enter {
+    animation: cardEnter 0.5s ease-out both;
+}
+
+.card-enter-delay {
+    animation: cardEnter 0.6s ease-out 0.12s both;
+}

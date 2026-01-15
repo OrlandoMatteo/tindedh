@@ -103,6 +103,8 @@ import { useManaCostStore,ManaCostState } from "../../store/manacostState"
 function ManaCostFilter() {
   const manaCostFilter = useManaCostStore((state:ManaCostState) => state.cost)
   const updateManaCostState = useManaCostStore((state:ManaCostState) => state.update)
+  const sliderPercent = (manaCostFilter / 16) * 100;
+  const bubbleLeft = Math.min(95, Math.max(5, sliderPercent));
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Math.max(0, Math.min(16, parseInt(event.target.value, 10)));
@@ -111,45 +113,44 @@ function ManaCostFilter() {
 
   return (
     <Card title="Mana Cost Filter">
-      <div className="px-3 grid grid-cols justify-items">
-        {/* <DemoAGraph value={value} /> */}
+      <div className="flex items-center justify-between text-sm text-slate-600">
+        <span>Max mana value</span>
+        <div className="flex items-center gap-2 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+          <span>{manaCostFilter}</span>
+          <img src={`https://svgs.scryfall.io/card-symbols/${manaCostFilter}.svg`} alt={`Mana value ${manaCostFilter}`} className="h-4 w-4" />
+        </div>
       </div>
-      <div className="relative my-2 p-3">
+      <div className="relative mt-6 px-2 pb-8 pt-6">
         <div
-          className="absolute rounded-full bg-white"
+          className="absolute -top-1 rounded-full bg-slate-900/90 px-2 py-0.5 text-xs font-semibold text-white shadow-sm"
           style={{
-            left: "12px",
-            width: `${manaCostFilter * 5.8}%`,
-            right: "12px",
-            height: "8px",
-            top: "50%",
-            transform: "translate(0, -50%)",
-          }}
-        ></div>
-        <div
-          className="absolute rounded-full bg-[#424E82]"
-          style={{
-            left: "12px",
-            width: `${manaCostFilter * 5.8}%`,
-            height: "8px",
-            top: "50%",
-            transform: "translate(0, -50%)",
-          }}
-        ></div>
-        <div
-          className="absolute grid place-items-center top-0 "
-          style={{
-            width: "24px",
-            height: "24px",
-            left: `${manaCostFilter * 5.8}%`,
+            left: `${bubbleLeft}%`,
+            transform: "translateX(-50%)",
           }}
         >
-          <div className="bg-white shadow-md rounded-full grid place-items-center w-5 h-5">
+          {manaCostFilter}
+        </div>
+        <div
+          className="absolute left-2 right-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/80 shadow-inner"
+        ></div>
+        <div
+          className="absolute left-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-amber-400"
+          style={{
+            right: `calc(100% - ${sliderPercent}%)`,
+          }}
+        ></div>
+        <div
+          className="absolute top-1/2 grid h-6 w-6 place-items-center"
+          style={{
+            left: `${bubbleLeft}%`,
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <div className="grid h-6 w-6 place-items-center rounded-full bg-white shadow-md">
             <div
-              className="rounded-full bg-[#424e82]"
+              className="h-3 w-3 rounded-full bg-slate-900"
               style={{
-                width: "14px",
-                height: "14px",
+                boxShadow: "0 0 0 4px rgba(251, 191, 36, 0.35)",
               }}
             />
           </div>
@@ -166,14 +167,9 @@ function ManaCostFilter() {
           onChange={handleChange}
         />
       </div>
-      <div className="relative p-8">
-        <div
-          className="absolute grid place-items-center top-0 "
-          style={{
-            width: `${2 * manaCostFilter / 15 + 43 / 15}rem`,
-            left: `${manaCostFilter * 5.}%`,
-            // height: `${value*4}pxs,
-          }}> <img src={`https://svgs.scryfall.io/card-symbols/${manaCostFilter}.svg`} /></div>
+      <div className="flex items-center justify-between text-xs text-slate-500">
+        <span>0</span>
+        <span>16+</span>
       </div>
     </Card>
   );
