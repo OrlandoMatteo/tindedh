@@ -20,23 +20,23 @@ const Liked: React.FC = () => {
     return (
         <BasicLayout>
 
-            <div className="flex-1 overflow-y-auto bg-indigo-900 w-screen relative">
-                <div className="p-6 bg-gray-100 w-full">
-                    <h1 className="text-3xl font-bold text-indigo-900 mb-6">Liked Cards</h1>
+            <div className="flex-1 overflow-y-auto bg-indigo-900 dark:bg-slate-900 w-full relative">
+                <div className="w-full bg-gray-100 p-6 dark:bg-slate-900">
+                    <h1 className="mb-6 text-3xl font-bold text-indigo-900 dark:text-slate-100">Liked Cards</h1>
                     {swipedCards.length > 0 ? (
                         <div className="overflow-x-auto">
-                            <table className="min-w-full bg-white shadow-md rounded-lg">
+                            <table className="min-w-full rounded-lg bg-white shadow-md dark:bg-slate-800">
                                 <thead>
-                                    <tr className="bg-indigo-500 text-white uppercase text-sm leading-normal">
+                                    <tr className="bg-indigo-500 text-sm uppercase leading-normal text-white dark:bg-slate-700">
                                         <th className="py-3 px-6 text-left">Name</th>
                                         <th className="py-3 px-6 text-left">Color Identity</th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-gray-700 text-sm">
+                                <tbody className="text-sm text-gray-700 dark:text-slate-200">
                                     {swipedCards.map((card, index) => (
-                                        <tr key={index} className="border-b border-gray-200 hover:bg-gray-100 transition-colors">
+                                        <tr key={index} className="border-b border-gray-200 transition-colors hover:bg-gray-100 dark:border-slate-700 dark:hover:bg-slate-700/50">
                                             <td className="py-3 px-6 text-left">
-                                                <a href={card.url} className="text-indigo-600 hover:underline">{card.name}</a>
+                                                <a href={card.url} className="text-indigo-600 hover:underline dark:text-amber-300">{card.name}</a>
                                             </td>
                                             <td className="py-3 px-6 flex space-x-2">
                                                 {card.colorIdentity && card.colorIdentity.map((color, idx) => (
@@ -54,7 +54,7 @@ const Liked: React.FC = () => {
                             </table>
                         </div>
                     ) : (
-                        <p className="text-gray-600">No liked cards found.</p>
+                        <p className="text-gray-600 dark:text-slate-300">No liked cards found.</p>
                     )}
                 </div>
             </div>

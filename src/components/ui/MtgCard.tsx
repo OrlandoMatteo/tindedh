@@ -235,22 +235,22 @@ function MtgCard() {
                 >
                     <div className="relative">
                         {error ? (
-                            <div className='m-4 flex w-80 flex-col items-center justify-center gap-3 rounded-2xl bg-white/90 p-6 text-center text-slate-700 shadow-2xl'>
+                            <div className='m-4 flex w-80 flex-col items-center justify-center gap-3 rounded-2xl bg-white/90 p-6 text-center text-slate-700 shadow-2xl dark:bg-slate-900/90 dark:text-slate-100'>
                                 <div className="text-sm font-semibold">{errorType === 'no-results' ? 'No results for these filters' : 'Could not load cards'}</div>
-                                <div className="text-xs text-slate-500">
+                                <div className="text-xs text-slate-500 dark:text-slate-300">
                                     {errorType === 'no-results'
                                         ? 'Try widening your color or mana filters.'
                                         : 'Check your connection and try again.'}
                                 </div>
                                 <button
-                                    className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm"
+                                    className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm dark:bg-slate-100 dark:text-slate-900"
                                     onClick={loadInitialCard}
                                 >
                                     Retry
                                 </button>
                             </div>
                         ) : isLoading ? (
-                            <div className='m-4 h-[460px] w-80 animate-pulse rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 shadow-2xl' />
+                            <div className='m-4 h-[460px] w-80 animate-pulse rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 shadow-2xl dark:from-slate-800 dark:via-slate-900 dark:to-slate-800' />
                         ) : (
                             <img src={currentCard.image} alt={currentCard.name} className='m-4 w-80 rounded-2xl shadow-2xl object-cover aspect-[63/88]' />
                         )}
@@ -266,14 +266,14 @@ function MtgCard() {
                                     style={{ opacity: nopeOpacity }}
                                 />
                                 <div
-                                    className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border-2 border-emerald-400 bg-white/75 px-7 py-5 text-2xl font-extrabold uppercase tracking-[0.3em] text-emerald-500 shadow-xl"
+                                    className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border-2 border-emerald-400 bg-white/75 px-7 py-5 text-2xl font-extrabold uppercase tracking-[0.3em] text-emerald-500 shadow-xl dark:bg-slate-900/70"
                                     style={{ opacity: likeOpacity }}
                                 >
                                     Like
                                     <span className="text-3xl">❤</span>
                                 </div>
                                 <div
-                                    className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border-2 border-rose-400 bg-white/75 px-7 py-5 text-2xl font-extrabold uppercase tracking-[0.3em] text-rose-500 shadow-xl"
+                                    className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border-2 border-rose-400 bg-white/75 px-7 py-5 text-2xl font-extrabold uppercase tracking-[0.3em] text-rose-500 shadow-xl dark:bg-slate-900/70"
                                     style={{ opacity: nopeOpacity }}
                                 >
                                     Nope
@@ -287,7 +287,7 @@ function MtgCard() {
 
             <div className="mt-4 flex items-center gap-4">
                 <button
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-rose-400"
                     onClick={() => swipeCard('left')}
                     aria-label="Dislike"
                     disabled={isLoading || !!error}
@@ -295,7 +295,7 @@ function MtgCard() {
                     <span className="text-xl font-bold">✕</span>
                 </button>
                 <button
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-md transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-md transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-slate-200"
                     onClick={rewindCard}
                     aria-label="Rewind"
                     disabled={!lastCard || isLoading || !!error}
@@ -303,7 +303,7 @@ function MtgCard() {
                     <span className="text-lg font-bold">↺</span>
                 </button>
                 <button
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-emerald-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-emerald-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-emerald-400"
                     onClick={() => swipeCard('right')}
                     aria-label="Like"
                     disabled={isLoading || !!error}

@@ -7,7 +7,7 @@ export const Home = (): FunctionComponent => {
 	return (
 		<BasicLayout>
 			{/* MtgCard section (grows to fill available space) */}
-			<div className="flex-1 flex justify-center items-center bg-indigo-900 w-screen relative">
+			<div className="flex flex-1 items-center justify-center bg-indigo-900 dark:bg-slate-900 w-full relative">
 				<MtgCard />
 			</div>
 		</BasicLayout>

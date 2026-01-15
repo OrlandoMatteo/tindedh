@@ -20,7 +20,8 @@ export default defineConfig({
   VitePWA({
     registerType: 'autoUpdate',
     includeAssets: [
-      'tindedh.svg'
+      'tindedh.svg',
+      'tindedh-dark.svg'
     ],
     manifest: {
       name: 'TindEDH',

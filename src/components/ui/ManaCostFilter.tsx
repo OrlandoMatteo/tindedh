@@ -113,16 +113,16 @@ function ManaCostFilter() {
 
   return (
     <Card title="Mana Cost Filter">
-      <div className="flex items-center justify-between text-sm text-slate-600">
+      <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
         <span>Max mana value</span>
-        <div className="flex items-center gap-2 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white shadow-sm">
+        <div className="flex items-center gap-2 rounded-full bg-slate-900/90 px-3 py-1 text-xs font-semibold text-white shadow-sm dark:bg-slate-100 dark:text-slate-900">
           <span>{manaCostFilter}</span>
           <img src={`https://svgs.scryfall.io/card-symbols/${manaCostFilter}.svg`} alt={`Mana value ${manaCostFilter}`} className="h-4 w-4" />
         </div>
       </div>
       <div className="relative mt-6 px-2 pb-8 pt-6">
         <div
-          className="absolute -top-1 rounded-full bg-slate-900/90 px-2 py-0.5 text-xs font-semibold text-white shadow-sm"
+          className="absolute -top-1 rounded-full bg-slate-900/90 px-2 py-0.5 text-xs font-semibold text-white shadow-sm dark:bg-slate-100 dark:text-slate-900"
           style={{
             left: `${bubbleLeft}%`,
             transform: "translateX(-50%)",
@@ -131,10 +131,10 @@ function ManaCostFilter() {
           {manaCostFilter}
         </div>
         <div
-          className="absolute left-2 right-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/80 shadow-inner"
+          className="absolute left-2 right-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/80 shadow-inner dark:bg-slate-800"
         ></div>
         <div
-          className="absolute left-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-amber-400"
+          className="absolute left-2 top-1/2 h-2 -translate-y-1/2 rounded-full bg-amber-400 dark:bg-amber-300"
           style={{
             right: `calc(100% - ${sliderPercent}%)`,
           }}
@@ -146,9 +146,9 @@ function ManaCostFilter() {
             transform: "translate(-50%, -50%)",
           }}
         >
-          <div className="grid h-6 w-6 place-items-center rounded-full bg-white shadow-md">
+          <div className="grid h-6 w-6 place-items-center rounded-full bg-white shadow-md dark:bg-slate-100">
             <div
-              className="h-3 w-3 rounded-full bg-slate-900"
+              className="h-3 w-3 rounded-full bg-slate-900 dark:bg-slate-900"
               style={{
                 boxShadow: "0 0 0 4px rgba(251, 191, 36, 0.35)",
               }}
@@ -167,7 +167,7 @@ function ManaCostFilter() {
           onChange={handleChange}
         />
       </div>
-      <div className="flex items-center justify-between text-xs text-slate-500">
+      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
         <span>0</span>
         <span>16+</span>
       </div>
