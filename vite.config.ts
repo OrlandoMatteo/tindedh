@@ -19,33 +19,19 @@ export default defineConfig({
   }),
   VitePWA({
     registerType: 'autoUpdate',
-    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+    includeAssets: [
+      'tindedh.svg'
+    ],
     manifest: {
       name: 'TindEDH',
       short_name: 'TindEDH',
       theme_color: '#ffffff',
       icons: [
         {
-          src: 'tindedh-icon.png',
-          sizes: '64x64',
-          type: 'image/png'
-        },
-        {
-          src: 'tindedh-icon.png',
-          sizes: '192x192',
-          type: 'image/png'
-        },
-        {
-          src: 'tindedh-icon.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any'
-        },
-        {
-          src: 'tindedh-icon.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'maskable'
+          src: 'tindedh.svg',
+          sizes: 'any',
+          type: 'image/svg+xml',
+          purpose: 'any maskable'
         }
       ],
     },
