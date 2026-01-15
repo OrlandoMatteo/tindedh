@@ -6,6 +6,13 @@ interface ColorIdentity {
     icon: string
 }
 
+type StoredColorState = Record<string, { isEnabled: boolean }>;
+
+type StoredState = {
+    colors?: StoredColorState;
+    isExactMatch?: boolean;
+};
+
 type ColorIdentityState = {
     colors: Record<string, ColorIdentity>,
     isExactMatch: boolean,
@@ -27,21 +34,21 @@ const baseColors: Record<string, ColorIdentity> = {
     "C": { color: "C", isEnabled: false, icon: 'https://svgs.scryfall.io/card-symbols/C.svg', },
 };
 
-const readStoredState = () => {
+const readStoredState = (): StoredState | null => {
     if (typeof window === 'undefined') {
         return null;
     }
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : null;
+        return raw ? (JSON.parse(raw) as StoredState) : null;
     } catch {
         return null;
     }
 };
 
-const applyStoredColors = (storedColors: Record<string, { isEnabled: boolean }> | null) => {
+const applyStoredColors = (storedColors: StoredColorState | null) => {
     return Object.fromEntries(
-        Object.entries(baseColors).map(([color, value]) => [
+        (Object.entries(baseColors) as [string, ColorIdentity][]).map(([color, value]) => [
             color,
             {
                 ...value,
@@ -55,10 +62,10 @@ const persistState = (state: ColorIdentityState) => {
     if (typeof window === 'undefined') {
         return;
     }
-    const serialized = {
+    const serialized: StoredState = {
         isExactMatch: state.isExactMatch,
         colors: Object.fromEntries(
-            Object.entries(state.colors).map(([color, value]) => [
+            (Object.entries(state.colors) as [string, ColorIdentity][]).map(([color, value]) => [
                 color,
                 { isEnabled: value.isEnabled },
             ])
@@ -77,7 +84,7 @@ const initialState: ColorIdentityState = {
     toggleExactMatch: () => { },
     getSelectedColors: () => {
         let selectedColors = '';
-        Object.entries(baseColors).forEach(([color, value]) => {
+        (Object.entries(baseColors) as [string, ColorIdentity][]).forEach(([color, value]) => {
             if (value.isEnabled) {
                 selectedColors += color;
             }
@@ -87,7 +94,7 @@ const initialState: ColorIdentityState = {
     getColorIdentityOperator: () => '%3C%3D'
 };
 
-const useColorIdentityStore = create<ColorIdentityState>((set) => ({
+const useColorIdentityStore = create<ColorIdentityState>()((set, get) => ({
     ...initialState,
     toggle: (color: string) => set((state) => {
         const nextState = {
@@ -110,7 +117,7 @@ const useColorIdentityStore = create<ColorIdentityState>((set) => ({
         const nextState = {
             ...state,
             colors: Object.fromEntries(
-                Object.entries(state.colors).map(([color, value]) => [
+                (Object.entries(state.colors) as [string, ColorIdentity][]).map(([color, value]) => [
                     color,
                     {
                         ...value,
@@ -132,7 +139,7 @@ const useColorIdentityStore = create<ColorIdentityState>((set) => ({
     }),
     getSelectedColors: () => {
         let selectedColors = '';
-        Object.entries(useColorIdentityStore.getState().colors).forEach(([color, value]) => { // Use dynamic state here
+        (Object.entries(get().colors) as [string, ColorIdentity][]).forEach(([color, value]) => {
             if (value.isEnabled) {
                 selectedColors += color;
             }
@@ -142,9 +149,7 @@ const useColorIdentityStore = create<ColorIdentityState>((set) => ({
         }
         return selectedColors;
     },
-    getColorIdentityOperator: () => {
-        return useColorIdentityStore.getState().isExactMatch ? '%3D' : '%3C%3D';
-    }
+    getColorIdentityOperator: () => (get().isExactMatch ? '%3D' : '%3C%3D')
 }));
 
 export { useColorIdentityStore };

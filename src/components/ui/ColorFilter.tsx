@@ -70,7 +70,7 @@ const ColorFilter: React.FC = () => {
         <FilterCard title='Colors'>
             <p className="text-sm text-slate-600">Choose one or more colors for your commander.</p>
             <div className="mt-4 grid grid-cols-6 gap-3">
-                {Object.entries(colorIdentityStore.colors).map(([color,value]) => (
+                {(Object.entries(colorIdentityStore.colors) as [string, { isEnabled: boolean; icon: string }][]).map(([color, value]) => (
                     <label key={color} className="col-span-3 sm:col-span-2 cursor-pointer">
                         <input
                             className="peer sr-only"
