@@ -1,6 +1,7 @@
 import { createRouter } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Analytics } from "@vercel/analytics/react";
 import App from "./App.tsx";
 import { routeTree } from "./routeTree.gen.ts";
 import "./styles/tailwind.css";
@@ -25,6 +26,7 @@ if (!rootElement.innerHTML) {
 			<React.Suspense fallback="loading">
 				<App router={router} />
 			</React.Suspense>
+			<Analytics />
 		</React.StrictMode>
 	);
 }
