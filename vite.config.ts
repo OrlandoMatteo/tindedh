@@ -8,57 +8,57 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), TanStackRouterVite(),
-	viteStaticCopy({
-		targets: [
-			{
-				src: normalizePath(path.resolve('./src/assets/locales')),
-				dest: normalizePath(path.resolve('./dist'))
-			}
-		]
-	}),
-	VitePWA({
-		registerType: 'autoUpdate',
-		includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
-		manifest: {
-			name: 'Vite PWA Project',
-			short_name: 'Vite PWA Project',
-			theme_color: '#ffffff',
-			icons: [
-				{
-					src: 'pwa-64x64.png',
-					sizes: '64x64',
-					type: 'image/png'
-				},
-				{
-					src: 'pwa-192x192.png',
-					sizes: '192x192',
-					type: 'image/png'
-				},
-				{
-					src: 'pwa-512x512.png',
-					sizes: '512x512',
-					type: 'image/png',
-					purpose: 'any'
-				},
-				{
-					src: 'maskable-icon-512x512.png',
-					sizes: '512x512',
-					type: 'image/png',
-					purpose: 'maskable'
-				}
-			],
-		},
-	})
-	],
-	server: {
-		host: true,
-		strictPort: true,
-	},
-	test: {
-		environment: "jsdom",
-		setupFiles: ["./vitest.setup.ts"],
-		css: true,
-	},
+  plugins: [react(), TanStackRouterVite(),
+  viteStaticCopy({
+    targets: [
+      {
+        src: normalizePath(path.resolve('./src/assets/locales')),
+        dest: normalizePath(path.resolve('./dist'))
+      }
+    ]
+  }),
+  VitePWA({
+    registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+    manifest: {
+      name: 'TindEDH',
+      short_name: 'TindEDH',
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: 'tindedh-icon.png',
+          sizes: '64x64',
+          type: 'image/png'
+        },
+        {
+          src: 'tindedh-icon.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: 'tindedh-icon.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'tindedh-icon.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ],
+    },
+  })
+  ],
+  server: {
+    host: true,
+    strictPort: true,
+  },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
+    css: true,
+  },
 
 });
