@@ -30,6 +30,10 @@ function MtgCard() {
     const colorIdentityFilter = useColorIdentityStore((state) => state.getSelectedColors)
     const colorIdentityOperator = useColorIdentityStore((state) => state.getColorIdentityOperator)
 
+    const filterKey = `${manaCostFilter}|${colorIdentityOperator()}|${colorIdentityFilter()}`;
+
+    const STORAGE_KEY = 'tindedh.currentCard';
+
     const fetchData = async () => {
         const url = "https://api.scryfall.com/cards/random?q=is%3Acommander+cmc<" + manaCostFilter.toString() + "+commander" + colorIdentityOperator() + colorIdentityFilter();
         const resp = await fetch(url, { method: 'get' });
@@ -46,6 +50,25 @@ function MtgCard() {
         return { name: data["name"], image: data["image_uris"]["large"], url: data["scryfall_uri"], colorIdentity: data["color_identity"] };
     };
 
+    const readStoredCardState = () => {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch {
+            return null;
+        }
+    };
+
+    const persistCardState = (cardState) => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cardState));
+    };
+
     const vibrate = (pattern: number | number[]) => {
         if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
             navigator.vibrate(pattern);
@@ -57,10 +80,23 @@ function MtgCard() {
         setError(null);
         setErrorType(null);
         try {
-            const initialCard = await fetchData();
-            const initialNext = await fetchData();
-            setCurrentCard(initialCard);
-            setNextCard(initialNext);
+            const storedState = readStoredCardState();
+            if (storedState?.filterKey === filterKey && storedState?.currentCard) {
+                setCurrentCard(storedState.currentCard);
+                if (storedState.nextCard) {
+                    setNextCard(storedState.nextCard);
+                } else {
+                    const initialNext = await fetchData();
+                    setNextCard(initialNext);
+                }
+            } else {
+                const initialCard = await fetchData();
+                const initialNext = await fetchData();
+                setCurrentCard(initialCard);
+                setNextCard(initialNext);
+            }
+            setLastCard(null);
+            setLastSwipeLiked(false);
             setAnimateIntro(true);
             setTimeout(() => setAnimateIntro(false), 700);
         } catch (err) {
@@ -75,7 +111,18 @@ function MtgCard() {
     // Fetch first card and show default image while waiting
     useEffect(() => {
         loadInitialCard();
-    }, []);  // Empty dependency array to run only once on mount
+    }, [filterKey]);
+
+    useEffect(() => {
+        if (!currentCard?.url) {
+            return;
+        }
+        persistCardState({
+            filterKey,
+            currentCard,
+            nextCard: nextCard ?? null,
+        });
+    }, [currentCard, nextCard, filterKey]);
 
     const loadNewCard = async (delay = 260) => {
         if (!nextCard) {
@@ -212,18 +259,18 @@ function MtgCard() {
     const nopeOpacity = translateX < 0 ? 0.45 + swipeStrength * 0.55 : 0;
 
     return (
-        <div className='flex flex-col items-center justify-center' style={{ perspective: '1000px' }}>
-            <div className='relative flex h-[520px] w-[320px] items-center justify-center'>
+        <div className='flex h-full flex-col items-center justify-start' style={{ perspective: '1000px' }}>
+            <div className='relative z-30 flex h-[min(520px,65svh)] w-[min(320px,86vw)] items-center justify-center'>
                 {/* The next card underneath the current card */}
                 {nextCard && (
-                    <div className={`next-card absolute inset-0 flex items-center justify-center ${animateIntro ? 'card-enter-delay' : ''} ${isNewCardVisible ? 'visible' : ''}`}>
-                        <img src={nextCard.image} alt={nextCard.name} className='m-4 w-80 rounded-2xl shadow-2xl object-cover aspect-[63/88]' />
+                    <div className={`next-card absolute inset-0 z-20 flex items-center justify-center ${animateIntro ? 'card-enter-delay' : ''} ${isNewCardVisible ? 'visible' : ''}`}>
+                        <img src={nextCard.image} alt={nextCard.name} className='m-4 w-[min(320px,86vw)] max-h-full rounded-2xl shadow-2xl object-contain aspect-[63/88]' />
                     </div>
                 )}
 
                 {/* The current swiping card */}
                 <div
-                    className={`absolute inset-0 flex items-center justify-center card current-card ${animateIntro ? 'card-enter' : ''} ${isCardHidden ? 'hidden' : ''}`}
+                    className={`absolute inset-0 z-30 flex items-center justify-center card current-card ${animateIntro ? 'card-enter' : ''} ${isCardHidden ? 'hidden' : ''}`}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
@@ -250,9 +297,9 @@ function MtgCard() {
                                 </button>
                             </div>
                         ) : isLoading ? (
-                            <div className='m-4 h-[460px] w-80 animate-pulse rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 shadow-2xl dark:from-slate-800 dark:via-slate-900 dark:to-slate-800' />
+                            <div className='m-4 w-[min(320px,86vw)] animate-pulse rounded-2xl bg-gradient-to-br from-slate-200 via-slate-100 to-slate-200 shadow-2xl aspect-[63/88] dark:from-slate-800 dark:via-slate-900 dark:to-slate-800' />
                         ) : (
-                            <img src={currentCard.image} alt={currentCard.name} className='m-4 w-80 rounded-2xl shadow-2xl object-cover aspect-[63/88]' />
+                            <img src={currentCard.image} alt={currentCard.name} className='m-4 w-[min(320px,86vw)] max-h-full rounded-2xl shadow-2xl object-contain aspect-[63/88]' />
                         )}
 
                         {!isLoading && !error && (
@@ -285,31 +332,33 @@ function MtgCard() {
                 </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-4">
-                <button
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-rose-400"
-                    onClick={() => swipeCard('left')}
-                    aria-label="Dislike"
-                    disabled={isLoading || !!error}
-                >
-                    <span className="text-xl font-bold">✕</span>
-                </button>
-                <button
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-md transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-slate-200"
-                    onClick={rewindCard}
-                    aria-label="Rewind"
-                    disabled={!lastCard || isLoading || !!error}
-                >
-                    <span className="text-lg font-bold">↺</span>
-                </button>
-                <button
-                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-emerald-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-emerald-400"
-                    onClick={() => swipeCard('right')}
-                    aria-label="Like"
-                    disabled={isLoading || !!error}
-                >
-                    <span className="text-xl font-bold">❤</span>
-                </button>
+            <div className="flex flex-1 mb-6 items-center justify-center">
+                <div className="flex items-center gap-4">
+                    <button
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-rose-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-rose-400"
+                        onClick={() => swipeCard('left')}
+                        aria-label="Dislike"
+                        disabled={isLoading || !!error}
+                    >
+                        <span className="text-xl font-bold">✕</span>
+                    </button>
+                    <button
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-slate-700 shadow-md transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-slate-200"
+                        onClick={rewindCard}
+                        aria-label="Rewind"
+                        disabled={!lastCard || isLoading || !!error}
+                    >
+                        <span className="text-lg font-bold">↺</span>
+                    </button>
+                    <button
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-emerald-500 shadow-lg transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-900 dark:text-emerald-400"
+                        onClick={() => swipeCard('right')}
+                        aria-label="Like"
+                        disabled={isLoading || !!error}
+                    >
+                        <span className="text-xl font-bold">❤</span>
+                    </button>
+                </div>
             </div>
         </div>
     );
